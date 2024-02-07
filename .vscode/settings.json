@@ -1,0 +1,15 @@
+{
+// launch configurations
+"launch": {
+    "version": "0.2.0",
+    "configurations": [ {
+        "name": "Python: DEFAULT Current File",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "justMyCode": true,
+        "cwd": "${workspaceRoot}/src"}],
+    "compounds": []
+}
+}
