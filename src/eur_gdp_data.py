@@ -4,7 +4,12 @@ import urllib
 import json
 import zipfile
 
+from datetime import date
+import calendar
+
 import pandas as pd
+
+from datawarehouse import DataWarehouse
 
 class EurGDPData():
 
@@ -73,3 +78,26 @@ class EurGDPData():
                 os.path.join(os.path.join(destination_path, "gdp_eur.parquet")),
                 index = False
             )
+
+    @staticmethod
+    def _quarter_to_date(quarter_str: str) -> str:
+        quarter_str_split = quarter_str.split("-")
+        
+        year = int(quarter_str_split[0])
+        quarter = int(quarter_str_split[1].replace("Q", ""))
+
+        month = quarter * 3
+        day = calendar.monthrange(year, month)[1]
+
+        date_str = date(year, month, day).strftime("%Y-%m-%d")
+        return date_str
+
+    @staticmethod
+    def ingest_data(origin_path:str, data_warehouse: DataWarehouse) -> None:
+        data = pd.read_csv(origin_path)
+        data = data.values.tolist()
+        print(data)
+
+if __name__ == "__main__":
+    quarter_str = "2023-Q1"
+    print(EurGDPData._quarter_to_date(quarter_str))
